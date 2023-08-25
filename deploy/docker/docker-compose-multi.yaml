@@ -72,7 +72,7 @@ services:
     image: lowcoderorg/lowcoder-ce-frontend:latest
     container_name: lowcoder-frontend
     ports:
-      - "3001:3001"
+      - "3000:3000"
     environment:
       PUID: "9001"
       PGID: "9001"
