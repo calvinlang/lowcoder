@@ -3,10 +3,10 @@
 ##
 FROM eclipse-temurin:17-jdk-jammy AS jre-build
 RUN jlink --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.management.rmi,java.naming,java.net.http,java.prefs,java.rmi,java.scripting,java.se,java.security.jgss,java.security.sasl,java.smartcardio,java.sql,java.sql.rowset,java.transaction.xa,java.xml,java.xml.crypto,jdk.accessibility,jdk.charsets,jdk.crypto.cryptoki,jdk.crypto.ec,jdk.dynalink,jdk.httpserver,jdk.incubator.foreign,jdk.incubator.vector,jdk.internal.vm.ci,jdk.jdwp.agent,jdk.jfr,jdk.jsobject,jdk.localedata,jdk.management,jdk.management.agent,jdk.management.jfr,jdk.naming.dns,jdk.naming.rmi,jdk.net,jdk.nio.mapmode,jdk.sctp,jdk.security.auth,jdk.security.jgss,jdk.unsupported,jdk.xml.dom,jdk.zipfs,jdk.attach \
-          --output /build/jre \
-          --no-man-pages \
-          --no-header-files \
-          --compress=2
+  --output /build/jre \
+  --no-man-pages \
+  --no-header-files \
+  --compress=2
 
 ##
 ## Build Lowcoder api-service application
@@ -70,8 +70,8 @@ RUN apt update && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-re
 
 # Download nodejs and install yarn
 RUN curl -sL https://deb.nodesource.com/setup_19.x | bash - \
-&& apt-get install --no-install-recommends -y nodejs \
-&& npm install -g yarn
+  && apt-get install --no-install-recommends -y nodejs \
+  && npm install -g yarn
 
 # Copy and build the node-service app
 COPY server/node-service/ /lowcoder/node-service/app/
@@ -148,7 +148,7 @@ COPY deploy/docker/frontend/00-change-nginx-user.sh /docker-entrypoint.d/00-chan
 COPY deploy/docker/frontend/01-update-nginx-conf.sh /docker-entrypoint.d/01-update-nginx-conf.sh
 
 RUN chmod +x /docker-entrypoint.d/00-change-nginx-user.sh && \
-    chmod +x /docker-entrypoint.d/01-update-nginx-conf.sh
+  chmod +x /docker-entrypoint.d/01-update-nginx-conf.sh
 
 COPY deploy/docker/frontend/nginx-http.conf /etc/nginx/nginx-http.conf
 COPY deploy/docker/frontend/nginx-https.conf /etc/nginx/nginx-https.conf
@@ -156,7 +156,7 @@ COPY deploy/docker/frontend/ssl-certificate.conf /etc/nginx/ssl-certificate.conf
 COPY deploy/docker/frontend/ssl-params.conf /etc/nginx/ssl-params.conf
 
 
-EXPOSE 3000
+EXPOSE 3001
 EXPOSE 3443
 
 #############################################################################
@@ -175,17 +175,17 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install --no-instal
   && echo "deb [signed-by=/usr/share/keyrings/mongodb-archive-keyring.gpg arch=amd64,arm64] http://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list \
   && curl -sL https://deb.nodesource.com/setup_19.x | bash - \
   && if [ "$(dpkg --print-architecture)" = "amd64" ] || [ "$(dpkg --print-architecture)" = "i386" ]; then \
-    curl -sL http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb --output libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb; \
+  curl -sL http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb --output libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb; \
   else \
-    curl -sL http://ports.ubuntu.com/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb --output libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb; \
+  curl -sL http://ports.ubuntu.com/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb --output libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb; \
   fi \
   && dpkg -i libssl1.1_1.1.1f-1ubuntu2_$(dpkg --print-architecture).deb \
   && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends -y \
-      mongodb-org \
-      redis \
-      supervisor \
-      gosu \
-      nodejs \
+  mongodb-org \
+  redis \
+  supervisor \
+  gosu \
+  nodejs \
   && npm install -g yarn \
   && rm -rf /var/cache/apt/lists
 
@@ -201,7 +201,7 @@ COPY --chown=lowcoder:lowcoder deploy/docker/all-in-one/etc /lowcoder/etc
 # Add startup script
 COPY --chown=lowcoder:lowcoder deploy/docker/all-in-one/entrypoint.sh /lowcoder/entrypoint.sh
 
-EXPOSE 3000
+EXPOSE 3001
 EXPOSE 3443
 
 ENTRYPOINT [ "/bin/sh" , "/lowcoder/entrypoint.sh" ]

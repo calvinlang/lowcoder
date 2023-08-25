@@ -8,7 +8,7 @@ services:
     image: lowcoderorg/lowcoder-ce:latest
     container_name: lowcoder
     ports:
-      - "3000:3000"
+      - "3001:3001"
       - "3443:3443"
     environment:
       # enable services

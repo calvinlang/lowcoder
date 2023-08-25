@@ -10,8 +10,8 @@ Also, for developers in need of stateless containers in cluster environment, we 
 
 ### Prerequisites
 
-* [Docker](https://docs.docker.com/get-docker/) (version 20.10.7 or above)
-* [Docker-Compose](https://docs.docker.com/compose/install/) (version 1.29.2 or above)
+- [Docker](https://docs.docker.com/get-docker/) (version 20.10.7 or above)
+- [Docker-Compose](https://docs.docker.com/compose/install/) (version 1.29.2 or above)
 
 {% hint style="info" %}
 Recommended system spec: 1-core CPU and 2 GB RAM.
@@ -35,10 +35,13 @@ Follow the steps below:
 1.  Download the configuration file by clicking [docker-compose.yml](https://raw.githubusercontent.com/lowcoder-org/lowcoder/main/deploy/docker/docker-compose.yaml) or running the curl command:&#x20;
 
     {% code overflow="wrap" %}
+
     ```bash
     curl https://raw.githubusercontent.com/lowcoder-org/lowcoder/main/deploy/docker/docker-compose.yaml -o $PWD/docker-compose.yml
     ```
+
     {% endcode %}
+
 2.  Start the Docker container by running this command:
 
     ```bash
@@ -47,7 +50,6 @@ Follow the steps below:
 
     \
     The docker image, about 400 MB, is downloaded during the initial start-up.\
-
 
     <figure><img src="../.gitbook/assets/download-ce.png" alt=""><figcaption></figcaption></figure>
 
@@ -59,23 +61,25 @@ Follow the steps below:
     docker logs -f openblocks
     ```
 
-
-
     When you see `frontend`, `backend`, `redis`, and `mongo` `entered the RUNNING state`, the Lowcoder service has officially started:&#x20;
 
     <figure><img src="../.gitbook/assets/check-logs-ce.png" alt=""><figcaption></figcaption></figure>
+
 4.  Visit [**http://localhost:3000**](http://localhost:3000) and click **Sign up**. Lowcoder will automatically create a workspace for you, then you can start building your apps and invite members to your workspace.
 
-    <figure><img src="../.gitbook/assets/after-deployment.png" alt=""><figcaption></figcaption></figure>
-{% endtab %}
+        <figure><img src="../.gitbook/assets/after-deployment.png" alt=""><figcaption></figcaption></figure>
+
+    {% endtab %}
 
 {% tab title="Docker" %}
 Run the command below:
 
 {% code overflow="wrap" %}
+
 ```bash
-docker run -d --name openblocks -p 3000:3000 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
+docker run -d --name openblocks -p 3001:3001 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
 ```
+
 {% endcode %}
 {% endtab %}
 {% endtabs %}
@@ -91,17 +95,20 @@ docker-compose pull
 docker-compose rm -fsv openblocks
 docker-compose up -d
 ```
+
 {% endtab %}
 
 {% tab title="Docker" %}
 Run the following commands to update to the latest Lowcoder image:
 
 {% code overflow="wrap" %}
+
 ```bash
 docker pull lowcoderorg/lowcoder-ce
 docker rm -fv openblocks
-docker run -d --name openblocks -p 3000:3000 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
+docker run -d --name openblocks -p 3001:3001 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
 ```
+
 {% endcode %}
 {% endtab %}
 {% endtabs %}
@@ -110,15 +117,15 @@ docker run -d --name openblocks -p 3000:3000 -v "$PWD/stacks:/openblocks-stacks"
 
 For developers who require stateless containers in a cluster environment, we offer separate images of backend and frontend service with a customizable Dockerfile. A well-functioning Lowcoder deployment consists of below services:
 
-* **api-service**: Backend service.
-* **node-service**: Backend service.
-* **frontend**: Frontend service.
-* **MongoDB**: Used for persisting data of users, apps, data sources, etc.
-* **Redis**: Used for maintaining user sessions, rate limiter, etc.
+- **api-service**: Backend service.
+- **node-service**: Backend service.
+- **frontend**: Frontend service.
+- **MongoDB**: Used for persisting data of users, apps, data sources, etc.
+- **Redis**: Used for maintaining user sessions, rate limiter, etc.
 
 ### Prerequisites
 
-* [Docker-Compose](https://docs.docker.com/compose/install/) (version 1.29.2 or above)
+- [Docker-Compose](https://docs.docker.com/compose/install/) (version 1.29.2 or above)
 
 ### Deploy
 
@@ -128,24 +135,28 @@ For developers who require stateless containers in a cluster environment, we off
     mkdir openblocks
     cd openblocks
     ```
+
 2.  Download the configuration file by clicking [docker-compose-multi.yml](https://raw.githubusercontent.com/lowcoder-org/lowcoder/main/deploy/docker/docker-compose-multi.yaml) or running the curl command:
 
     <pre class="language-bash" data-overflow="wrap"><code class="lang-bash"><strong>curl https://raw.githubusercontent.com/lowcoder-org/lowcoder/main/deploy/docker/docker-compose-multi.yaml -o $PWD/docker-compose-multi.yml
     </strong></code></pre>
+
 3.  Modify service configurations in the downloaded Dockerfile according to your needs:
 
     <figure><img src="../.gitbook/assets/docker-compose-multi.jpeg" alt=""><figcaption></figcaption></figure>
 
-    * **mongodb**: Start a new MongoDB instance on your host. You can delete this part  and modify the environment variable `MONGODB_URL` of **openblocks-api-service** to use your own MongoDB.
-    * **redis**: Start a new Redis instance on your host. You can delete this part and modify the environment variable `REDIS_URL` of **openblocks-api-service** to use your own Redis.
-    * **openblocks-api-service**: Required.&#x20;
-    * **openblocks-node-service**: Required.
-    * **openblocks-frontend**: Required. Can be optional if you deploy frontend on CDN.
+    - **mongodb**: Start a new MongoDB instance on your host. You can delete this part and modify the environment variable `MONGODB_URL` of **openblocks-api-service** to use your own MongoDB.
+    - **redis**: Start a new Redis instance on your host. You can delete this part and modify the environment variable `REDIS_URL` of **openblocks-api-service** to use your own Redis.
+    - **openblocks-api-service**: Required.&#x20;
+    - **openblocks-node-service**: Required.
+    - **openblocks-frontend**: Required. Can be optional if you deploy frontend on CDN.
+
 4.  Start Docker containers by running this command:
 
     ```bash
     docker-compose -f docker-compose-multi.yml up -d
     ```
+
 5.  Visit [**http://localhost:3000**](http://localhost:3000) and click **Sign up**. Lowcoder will automatically create a workspace for you, then you can start building your apps and invite members to your workspace.
 
     <figure><img src="../.gitbook/assets/after-deployment.png" alt=""><figcaption></figcaption></figure>
@@ -184,6 +195,7 @@ docker stop openblocks
 docker rm openblocks
 # run your new docker run command
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -207,9 +219,11 @@ Add environment variables `MONGODB_URL` and `REDIS_URL` in `docker-compose.yml` 
 Add environment variables `MONGODB_URL` and `REDIS_URL` to the deployment command, as shown below:
 
 {% code overflow="wrap" %}
+
 ```bash
-docker run -d --name openblocks -e MONGODB_URL=YOUR_MONGODB_URL REDIS_URL=YOUR_REDIS_URL -p 3000:3000 -v "$PWD/stacks:/openblocks-stacks lowcoderorg/lowcoder-ce
+docker run -d --name openblocks -e MONGODB_URL=YOUR_MONGODB_URL REDIS_URL=YOUR_REDIS_URL -p 3001:3001 -v "$PWD/stacks:/openblocks-stacks lowcoderorg/lowcoder-ce
 ```
+
 {% endcode %}
 {% endtab %}
 {% endtabs %}
@@ -228,9 +242,11 @@ Add an environment variable `LOCAL_USER_ID` in `docker-compose.yml` downloaded i
 Add an environment variable `LOCAL_USER_ID` to the deployment command, as shown below:
 
 {% code overflow="wrap" %}
+
 ```bash
-docker run -d --name openblocks -e LOCAL_USER_ID=10010 -p 3000:3000 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
+docker run -d --name openblocks -e LOCAL_USER_ID=10010 -p 3001:3001 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
 ```
+
 {% endcode %}
 {% endtab %}
 {% endtabs %}
@@ -241,19 +257,23 @@ With an SSL certificate, you can securely visit self-hosted Lowcoder with HTTPS 
 
 {% tabs %}
 {% tab title="Docker-Compose" %}
+
 1. Copy `fullchain.pem` and `privkey.pem` to the `$PWD/stacks/ssl` directory.
 2. In `$PWD/docker-compose.yml`, change the value of `ports` to `"3443:3443"`.\
-   ![](../.gitbook/assets/ssl-certificates.png)
-{% endtab %}
+    ![](../.gitbook/assets/ssl-certificates.png)
+   {% endtab %}
 
 {% tab title="Docker" %}
+
 1. Copy `fullchain.pem` and `privkey.pem` to the `$PWD/stacks/ssl` directory.
 2. Change the `ports` in the deployment command to `3443:3443`, as shown below:
 
 {% code overflow="wrap" %}
+
 ```bash
 docker run -d --name openblocks -p 3443:3443 -v "$PWD/stacks:/openblocks-stacks" lowcoderorg/lowcoder-ce
 ```
+
 {% endcode %}
 {% endtab %}
 {% endtabs %}
